@@ -10,5 +10,5 @@ Eine Möglichkeit für die Zukunft oder wenn das Projekt schneller als geplant g
 ## Technologien
 Wir möchten das Frontend mit Vue.js machen. Und für das backend C# benutzen.
 
-## Projectlink
+## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
