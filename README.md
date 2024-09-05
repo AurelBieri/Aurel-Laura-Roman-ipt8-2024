@@ -18,8 +18,7 @@ Man kann es aber schon ausführen, indem man folgende Schritte macht:
 1. Das Projekt mit Git Klonen
 2. Dann mit dem npm befehl alle Abhängigkeiten herunterladen: npm ci
 3. Das Projekt mit folgendem Befehl starten: npm run serve
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Mehr kann ich hier im Moment noch nicht schreiben, aber nächste Woche, wenn Docker fertig eingerichtet ist, kann ich dann die richtige Setup-Anleitung machen.
+4. Mehr kann ich hier im Moment noch nicht schreiben, aber nächste Woche, wenn Docker fertig eingerichtet ist, kann ich dann die richtige Setup-Anleitung machen.
 
 ## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
