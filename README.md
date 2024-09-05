@@ -12,5 +12,13 @@ Eine Möglichkeit für die Zukunft oder wenn das Projekt schneller als geplant g
 Wir möchten das Frontend mit Vue.js machen. Und für das backend C# benutzen.
 Welche Datenbank oder Datenpackete wir brauchen ist noch nicht klar.
 
+## Lokales Setup
+Das Docker Setup ist noch nicht fertig, deswegen lassen wir Docker für den Moment noch aus der Anleitung.
+Man kann es aber schon ausführen, indem man folgende Schritte macht:
+1. Das Projekt mit Git Klonen
+2. Dann mit dem npm befehl alle Abhängigkeiten herunterladen: npm ci
+3. Das Projekt mit folgendem Befehl starten: npm run serve
+Mehr kann ich hier im Moment noch nicht schreiben, aber nächste Woche, wenn Docker fertig eingerichtet ist, kann ich dann die richtige Setup-Anleitung machen.
+
 ## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
