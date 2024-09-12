@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "Startdatabase": "docker exec -it mysql-demo mysql -u demo -p"
+
   },
   "dependencies": {
     "core-js": "^3.8.3",
