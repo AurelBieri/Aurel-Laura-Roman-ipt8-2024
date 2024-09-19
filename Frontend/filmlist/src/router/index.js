@@ -1,21 +1,28 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Loginview from '../views/LoginView.vue'
-import HomeView from '../views/HomeView.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import WatchlistView from '../views/WatchlistView.vue';
 
-const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
-    routes: [
-        {
-            path: '/',
-            name: 'Home',
-            component: HomeView
-          },,
-          {
-            path: '/login',
-            name: 'Login',
-            component: Loginview
-          },
-    ]
-})
+// Vue Router installieren
+Vue.use(VueRouter);
 
-export default router
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/watchlist',
+    name: 'watchlist',
+    component: WatchlistView
+  }
+];
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+});
+
+export default router;
