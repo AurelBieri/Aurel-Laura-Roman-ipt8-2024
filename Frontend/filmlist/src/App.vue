@@ -1,8 +1,7 @@
 <script setup>
-import LoginView from './views/LoginView.vue';
+import HomeView from './views/HomeView.vue';
 </script>
 
 <template>
-<LoginView/>
+<HomeView/>
 </template>
-
