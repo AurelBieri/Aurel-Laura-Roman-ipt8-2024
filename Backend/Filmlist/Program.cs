@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql("Server=127.0.0.1; Port=3308; User=demo;Password=demo;",
+    options.UseMySql("Server=127.0.0.1; Port=3308; Database=demo; User=demo;Password=demo;",
     new MySqlServerVersion(new Version(8, 0, 25)))); //Only for testing
 
 
