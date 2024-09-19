@@ -1,45 +1,28 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace DatabaseConnectionApp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql("Server=127.0.0.1; Port=3308; User=demo;Password=demo;",
+    new MySqlServerVersion(new Version(8, 0, 25)))); //Only for testing
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string connectionString = "Server=; Port=3308; Database=filmlist;User Id=demo;Password=demo;";
-
-            string query = "SELECT TOP 5 * FROM YourTable";
-
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    Console.WriteLine("Connection Open!");
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine(reader[0].ToString());
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("An error occurred: " + ex.Message);
-                }
-                finally
-                {
-                    connection.Close();
-                    Console.WriteLine("Connection Closed.");
-                }
-            }
-        }
-    }
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();

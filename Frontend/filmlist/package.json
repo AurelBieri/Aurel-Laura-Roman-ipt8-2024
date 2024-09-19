@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "Startdatabase": "docker exec -it mysql-demo mysql -u demo -p"
+    "startdatabase": "cd C:/temp/filmlistlistfilmlistlitsilistl/Aurel-Laura-Roman-ipt8-2024/Docker && docker-compose up -d && docker exec -it mysql-demo mysql -u demo -p"
 
   },
   "dependencies": {
