@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Filmlist.Classes;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Filmlist.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+
+        public UserController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+
         // Example data store
         private static List<User> users = new List<User>
         {
@@ -18,8 +28,9 @@ namespace Filmlist.Controllers
 
         // GET api/user
         [HttpGet]
-        public IActionResult GetAllUsers()
+       public async Task<IActionResult> GetAllUsers()
         {
+            var users = await _context.Users.ToListAsync();
             return Ok(users);
         }
 
@@ -43,8 +54,8 @@ namespace Filmlist.Controllers
             {
                 return BadRequest();
             }
-            newUser.Id = users.Max(u => u.Id) + 1;
-            users.Add(newUser);
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
         }
 
