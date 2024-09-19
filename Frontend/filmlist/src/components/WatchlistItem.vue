@@ -1,9 +1,11 @@
 <template>
-    <div class="watchlist-item">
-      <input type="checkbox" v-model="isWatched" @change="toggleWatched">
-      <span :class="{ watched: isWatched }">{{ movie.title }}</span>
+    <li class="watchlist-item">
+      <div>
+        <input type="checkbox" v-model="isWatched" @change="toggleWatched">
+        <span :class="{ watched: isWatched }">{{ movie.title }}</span>
+      </div>
       <button @click="$emit('remove', movie)">Löschen</button>
-    </div>
+    </li>
   </template>
   
   <script>
@@ -28,6 +30,12 @@
   .watched {
     text-decoration: line-through;
     color: gray;
+  }
+  
+  .watchlist-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
   }
   </style>
   

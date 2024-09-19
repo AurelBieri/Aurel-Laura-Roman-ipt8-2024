@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import WatchlistView from '../views/WatchlistView.vue';
+import { createRouter, createWebHistory } from 'vue-router'; 
+import HomeView from '../views/HomeView.vue'; // Home-Komponente
+import WatchlistView from '../views/WatchlistView.vue'; // Watchlist-Komponente
 
 const routes = [
   {
-    path: '/',
+    path: '/', // Home-Seite
     name: 'Home',
     component: HomeView
   },
   {
-    path: '/watchlist',
+    path: '/watchlist', // Watchlist-Seite
     name: 'Watchlist',
     component: WatchlistView
   }
