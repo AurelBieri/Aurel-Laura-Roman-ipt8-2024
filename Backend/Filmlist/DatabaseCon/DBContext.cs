@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Filmlist.Classes;
 
 public class ApplicationDbContext : DbContext
 {
