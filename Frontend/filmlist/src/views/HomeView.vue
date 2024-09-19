@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 function login() {
-  router.push('/login');
+  router.go('/login');
 }
 </script>
 
