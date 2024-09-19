@@ -1,14 +1,13 @@
 <template>
     <div>
       <h1>Willkommen zur Watchlist-App!</h1>
-      <p>Erstelle und teile deine Watchlisten.</p>
-      <router-link to="/watchlist">Zu meiner Watchlist</router-link>
+      <p>Dies ist die Startseite.</p>
     </div>
   </template>
   
   <script>
   export default {
-    name: 'HomeView'
+    name: 'HomeView',
   };
   </script>
   

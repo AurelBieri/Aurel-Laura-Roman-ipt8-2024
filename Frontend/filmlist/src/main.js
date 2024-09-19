@@ -1,10 +1,12 @@
-import Vue from 'vue';
+import { createApp } from 'vue'; // Vue 3 verwendet createApp
 import App from './App.vue';
-import router from './router'; // Den Router korrekt importieren
+import router from './router'; // Importiere den Router
 
-Vue.config.productionTip = false;
+// Erstelle die App
+const app = createApp(App);
 
-new Vue({
-  router,  // Den Router in der Vue-Instanz registrieren
-  render: h => h(App)
-}).$mount('#app');
+// Verwende den Router
+app.use(router);
+
+// Montiere die App in das HTML-Element mit der ID "app"
+app.mount('#app');
