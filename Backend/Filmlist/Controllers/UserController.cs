@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Filmlist.Classes;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Filmlist.Controllers
 {
@@ -18,6 +23,44 @@ namespace Filmlist.Controllers
             _context = context;
         }
 
+          [HttpPost("login")]
+        public IActionResult Login([FromBody] User loginDto)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Username == loginDto.Username && u.Password == loginDto.Password);
+
+            if (user == null)
+            {
+                return Unauthorized(); // Invalid credentials
+            }
+
+            // Generate JWT token
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { token });
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknan35n32n5")); 
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: "localhost", 
+                audience: "localhost", 
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30), 
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
 
         // Example data store
         private static List<User> users = new List<User>
@@ -27,12 +70,14 @@ namespace Filmlist.Controllers
         };
 
         // GET api/user
+        [Authorize]
         [HttpGet]
        public async Task<IActionResult> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
-            return Ok(users);
+            return Ok("hello");
         }
+
 
         // GET api/user/5
         [HttpGet("{id}")]
@@ -46,6 +91,7 @@ namespace Filmlist.Controllers
             return Ok(user);
         }
 
+
         // POST api/user
         [HttpPost]
         public IActionResult CreateUser([FromBody] User newUser)
@@ -58,6 +104,7 @@ namespace Filmlist.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
