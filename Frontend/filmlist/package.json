@@ -8,7 +8,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "startdatabase": "cd C:/temp/filmlistlistfilmlistlitsilistl/Aurel-Laura-Roman-ipt8-2024/Docker && docker-compose up -d && docker exec -it mysql-demo mysql -u demo -p",
-    "Startbackend": "cd C:/temp/filmlistlistfilmlistlitsilistl/Aurel-Laura-Roman-ipt8-2024/Backend/Filmlist && dotnet restore && dotnet run "
+    "Startbackend": "cd C:/temp/filmlistlistfilmlistlitsilistl/Aurel-Laura-Roman-ipt8-2024/Backend/Filmlist && dotnet restore && dotnet build && dotnet run "
 
   },
   "dependencies": {

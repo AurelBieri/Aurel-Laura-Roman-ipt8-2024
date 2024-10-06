@@ -24,16 +24,15 @@ namespace Filmlist.Controllers
         }
 
           [HttpPost("login")]
-        public IActionResult Login([FromBody] User loginDto)
+        public IActionResult Login([FromBody] LoginRequest loginDto)
         {
             var user = _context.Users.SingleOrDefault(u => u.Username == loginDto.Username && u.Password == loginDto.Password);
 
             if (user == null)
             {
-                return Unauthorized(); // Invalid credentials
+                return Unauthorized(); 
             }
 
-            // Generate JWT token
             var token = GenerateJwtToken(user);
 
             return Ok(new { token });
@@ -41,7 +40,7 @@ namespace Filmlist.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknan35n32n5")); 
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknjjdjfjdsaofaoifaiJEUHWUOIJ9384U29848HDAJNJkdaj9dan35n32n5")); //Muss nach der Entwicklung sicherer gemacht werden
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -75,7 +74,7 @@ namespace Filmlist.Controllers
        public async Task<IActionResult> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
-            return Ok("hello");
+            return Ok(users);
         }
 
 
