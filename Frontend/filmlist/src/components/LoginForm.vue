@@ -30,9 +30,11 @@
   <script setup>
   import { login } from '../api/request';
   import { ref } from 'vue';
+  import {useRouter} from 'vue-router'
 
   const email = ref('');
   const password = ref('');
+  const router = useRouter();
 
   const errors = ref({
     email: '',
@@ -43,8 +45,7 @@ async function handleLogin(event) {
   event.preventDefault();
   try {
     await login(email.value, password.value);
-    alert("Hat funktioniert!");
-    //await router.push('/form');
+    await router.push('/list');
   } catch (exception) {
     errors.value = exception.errors || { email: 'Login failed', password: 'Login failed' };
   }
