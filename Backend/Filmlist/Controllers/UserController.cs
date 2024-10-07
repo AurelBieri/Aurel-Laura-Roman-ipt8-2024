@@ -23,10 +23,11 @@ namespace Filmlist.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
           [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest loginDto)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == loginDto.Username && u.Password == loginDto.Password);
+            var user = _context.Users.SingleOrDefault(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
 
             if (user == null)
             {
@@ -45,7 +46,7 @@ namespace Filmlist.Controllers
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

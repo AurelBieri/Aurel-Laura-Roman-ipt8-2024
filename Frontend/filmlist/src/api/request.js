@@ -1,13 +1,13 @@
 import { useToken } from './auth'
 
-const backend = 'http://localhost:5000/api'
+const backend = 'http://localhost:5000/api/user'
 
 const { token, setToken } = useToken()
 
-export async function login (email, password) {
+export async function login (Email, password) {
     const response = await request(`/login`, {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ Email, password }),
     })
 
     if (response.token) {
@@ -38,5 +38,16 @@ async function request (url, options) {
         throw new ValidationError('validation failed', data.errors)
     } else {
         throw new Error(`Server error: ${await response.text()}`)
+    }
+}
+
+
+class ValidationError {
+    message
+    errors
+
+    constructor (message, errors) {
+        this.message = message
+        this.errors = errors
     }
 }

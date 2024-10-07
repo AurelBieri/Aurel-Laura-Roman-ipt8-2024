@@ -27,29 +27,28 @@
     </div>
   </template>
   
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: '',
-      };
-    },
-    methods: {
-      handleLogin() {
-        console.log('Email:', this.email);
-        console.log('Passwort:', this.password);
-  
-        if (this.email === "test@test.com" && this.password === "123456") {
-          alert("Erfolgreich eingeloggt!");
+  <script setup>
+  import { login } from '../api/request';
+  import { ref } from 'vue';
 
-          this.$router.push({ path: '/home' });
-        } else {
-          alert("Falsche Anmeldedaten!");
-        }
-      },
-    },
-  };
+  const email = ref('');
+  const password = ref('');
+
+  const errors = ref({
+    email: '',
+    password: '',
+});
+
+async function handleLogin(event) {
+  event.preventDefault();
+  try {
+    await login(email.value, password.value);
+    alert("Hat funktioniert!");
+    //await router.push('/form');
+  } catch (exception) {
+    errors.value = exception.errors || { email: 'Login failed', password: 'Login failed' };
+  }
+}
   </script>
   
   <style scoped>
