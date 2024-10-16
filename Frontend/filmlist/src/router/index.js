@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Loginview from '../views/LoginView.vue';
 import ListView from '../views/ListView.vue';
+import RegisterView from '@/views/RegisterView.vue';
 
 const router = createRouter({
     history: createWebHistory('/'),
@@ -16,6 +17,11 @@ const router = createRouter({
             component: ListView,
             meta: {requiresAuth: true}
           },
+          {
+            path: '/register',
+            name: 'register',
+            component: RegisterView
+          }
     ]
 })
 

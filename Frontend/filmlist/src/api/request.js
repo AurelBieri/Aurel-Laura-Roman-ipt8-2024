@@ -17,7 +17,7 @@ export async function login (Email, password) {
     return response.token
 }
 
-export async function register (Email, password, username) {
+export async function register (username, Email, password) {
     const response = await request(`/register`, {
         method: 'POST',
         body: JSON.stringify({ Email, password, username }),
