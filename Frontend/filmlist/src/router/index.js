@@ -3,7 +3,7 @@ import Loginview from '../views/LoginView.vue';
 import ListView from '../views/ListView.vue';
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory('/'),
     routes: [
           {
             path: '/login',
@@ -13,9 +13,20 @@ const router = createRouter({
           {
             path: '/List',
             name: 'List',
-            component: ListView
+            component: ListView,
+            meta: {requiresAuth: true}
           },
     ]
 })
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('session_token'); 
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/login'); 
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -60,6 +60,19 @@ namespace Filmlist.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        // POST api/user
+        [HttpPost("register")]
+        public IActionResult CreateUser([FromBody] User newUser)
+        {
+            if (newUser == null)
+            {
+                return BadRequest();
+            }
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
+        }
+
 
 
         // Example data store
@@ -89,20 +102,6 @@ namespace Filmlist.Controllers
                 return NotFound();
             }
             return Ok(user);
-        }
-
-
-        // POST api/user
-        [HttpPost]
-        public IActionResult CreateUser([FromBody] User newUser)
-        {
-            if (newUser == null)
-            {
-                return BadRequest();
-            }
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
         }
 
 
