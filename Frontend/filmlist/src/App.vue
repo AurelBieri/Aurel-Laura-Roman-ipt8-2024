@@ -1,38 +1,48 @@
 <template>
     <div id="app">
-      <nav>
-        <!-- Navigationslinks zur Home- und Watchlist-Seite -->
-        <router-link to="/">Home</router-link>
-        <router-link to="/watchlist">Watchlist</router-link>
-      </nav>
-      
-      <!-- Zeigt die jeweilige View je nach Route an -->
-      <router-view></router-view>
+      <header>
+        <h1>Meine Watchlist App</h1>
+        <nav>
+          <router-link to="/">Home</router-link>
+        </nav>
+      </header>
+      <main>
+        <router-view />
+      </main>
     </div>
   </template>
   
   <script>
   export default {
-    name: 'App'
+    name: 'App',
   };
   </script>
   
-  <style>
-  nav {
-    display: flex;
-    gap: 10px;
+  <style scoped>
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  header {
+    background-color: #42b983;
     padding: 10px;
-    background-color: #f0f0f0;
+    color: white;
   }
   
   nav a {
+    margin: 0 15px;
+    color: white;
     text-decoration: none;
-    color: #007bff;
   }
   
   nav a.router-link-exact-active {
     font-weight: bold;
-    color: #0056b3;
+  }
+  
+  main {
+    padding: 20px;
   }
   </style>
   
