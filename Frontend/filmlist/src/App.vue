@@ -4,6 +4,7 @@
         <h1>Meine Watchlist App</h1>
         <nav>
           <router-link to="/">Home</router-link>
+          <router-link to="/watchlist/1">Watchlist</router-link>
         </nav>
       </header>
       <main>

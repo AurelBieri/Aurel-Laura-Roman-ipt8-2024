@@ -1,9 +1,6 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
-import Watchlist from '@/views/Watchlist.vue';
-
-Vue.use(VueRouter);
+import WatchlistPage from '@/views/WatchlistPage.vue';
 
 const routes = [
   {
@@ -14,12 +11,13 @@ const routes = [
   {
     path: '/watchlist/:id',
     name: 'Watchlist',
-    component: Watchlist,
+    component: WatchlistPage,
+    props: true, // Übergibt die ID als Prop an die WatchlistPage
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(),
   routes,
 });
 

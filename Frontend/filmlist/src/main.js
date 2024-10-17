@@ -1,10 +1,7 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router'; // Importiere den Router
+import router from './router'; // Router importieren
 
-Vue.config.productionTip = false;
-
-new Vue({
-  router, // Binde den Router an die Vue-Instanz
-  render: h => h(App), // Rendere die Hauptkomponente
-}).$mount('#app');
+const app = createApp(App);
+app.use(router); // Router benutzen
+app.mount('#app'); // Die App mounten
