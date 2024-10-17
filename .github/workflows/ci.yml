@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-format-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: |
+          cd frontend/filmlist
+          npm install
+
+      - name: Run linter
+        run: |
+          cd frontend/filmlist
+          npm run lint
+
+      - name: Format code
+        run: |
+          cd frontend/filmlist
+          npm run format-check
+
+      - name: Run tests
+        run: npm test
