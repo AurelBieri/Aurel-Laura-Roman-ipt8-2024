@@ -1,90 +1,129 @@
 <template>
-    <div class="login-form">
-      <h2>Login</h2>
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-          />
-        </div>
-  
-        <div class="form-group">
-          <label for="password">Passwort:</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-          />
-        </div>
-  
-        <button type="submit">Anmelden</button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: '',
-      };
-    },
-    methods: {
-      handleLogin() {
-        console.log('Email:', this.email);
-        console.log('Passwort:', this.password);
-  
-        if (this.email === "test@test.com" && this.password === "123456") {
-          alert("Erfolgreich eingeloggt!");
+  <div class="login-form">
+    <h2>Login</h2>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          v-model="email"
+          required
+        />
+      </div>
 
-          this.$router.push({ path: '/home' });
-        } else {
-          alert("Falsche Anmeldedaten!");
-        }
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .login-form {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+      <div class="form-group">
+        <label for="password">Passwort:</label>
+        <input
+          type="password"
+          id="password"
+          v-model="password"
+          required
+        />
+      </div>
+
+      <button type="submit">Anmelden</button>
+
+      <div class="register-link">
+        <span>Kein Konto?</span>
+        <router-link to="/register">Jetzt registrieren</router-link>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script setup>
+import { login } from '../api/request';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+
+const errors = ref({
+  email: '',
+  password: '',
+});
+
+async function handleLogin(event) {
+  event.preventDefault();
+  try {
+    await login(email.value, password.value);
+    await router.push('/list');
+  } catch (exception) {
+    errors.value = exception.errors || { email: 'Login failed', password: 'Login failed' };
   }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  </style>
-  
+}
+</script>
+
+<style scoped>
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-link span {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+</style>

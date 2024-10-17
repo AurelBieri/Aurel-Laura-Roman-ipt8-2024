@@ -1,20 +1,38 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Loginview from '../views/LoginView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Loginview from '../views/LoginView.vue';
+import ListView from '../views/ListView.vue';
+import RegisterView from '@/views/RegisterView.vue';
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory('/'),
     routes: [
-        {
-            path: '/',
-            name: 'List',
-            component: ListView
-          },,
           {
             path: '/login',
             name: 'Login',
             component: Loginview
           },
+          {
+            path: '/List',
+            name: 'List',
+            component: ListView,
+            meta: {requiresAuth: true}
+          },
+          {
+            path: '/register',
+            name: 'register',
+            component: RegisterView
+          }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('session_token'); 
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/login'); 
+  } else {
+    next();
+  }
+});
 
 export default router
