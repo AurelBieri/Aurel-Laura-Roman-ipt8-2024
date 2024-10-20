@@ -19,17 +19,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd frontend\filmlist
+          cd frontend/filmlist
           npm install
 
       - name: Run linter
         run: |
-          cd frontend\filmlist
+          cd frontend/filmlist
           npm run lint
 
       - name: Format code
         run: |
-          cd frontend\filmlist
+          cd frontend/filmlist
           npm run format-check
 
       - name: Run tests

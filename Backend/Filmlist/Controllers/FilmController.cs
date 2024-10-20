@@ -19,20 +19,36 @@ namespace Filmlist.Controllers
         }
 
         // POST api/movielist
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateList([FromBody] MovieList newList)
-        {
-            if (newList == null)
-            {
-                return BadRequest();
-            }
+[Authorize]
+[HttpPost]
+public async Task<IActionResult> CreateList([FromBody] MovieList newList)
+{
+    if (newList == null || newList.UserId == 0)
+    {
+        return BadRequest("Invalid movie list or missing user information.");
+    }
 
-            _context.MovieLists.Add(newList);
-            await _context.SaveChangesAsync();
+    var user = await _context.Users.FindAsync(newList.UserId);
+    if (user == null)
+    {
+        return NotFound("User not found.");
+    }
 
-            return CreatedAtAction(nameof(GetListById), new { id = newList.Id }, newList);
-        }
+    newList.User = user;
+
+    foreach (var movie in newList.Movies)
+    {
+        movie.MovieList = newList;  
+    }
+
+    _context.MovieLists.Add(newList);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(GetListById), new { id = newList.Id }, newList);
+}
+
+
+
 
         // GET api/movielist/{id}
         [Authorize]

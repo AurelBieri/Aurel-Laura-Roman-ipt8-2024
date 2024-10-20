@@ -8,6 +8,6 @@ namespace Filmlist.Classes{
     public bool IsWatched { get; set; } = false;
 
     public int MovieListId { get; set; }
-    public MovieList MovieList { get; set; }
+    public MovieList ?MovieList { get; set; }
 }
 }
