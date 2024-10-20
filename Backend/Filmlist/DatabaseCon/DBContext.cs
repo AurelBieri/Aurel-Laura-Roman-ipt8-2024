@@ -39,12 +39,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Name)
                   .IsRequired()
                   .HasMaxLength(100);
-
-            entity.Property(e => e.CreatedAt)
-                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            entity.Property(e => e.UpdatedAt)
-                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         modelBuilder.Entity<MovieItem>(entity =>
