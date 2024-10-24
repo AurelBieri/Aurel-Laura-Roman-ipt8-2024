@@ -29,11 +29,10 @@ export async function register(username, Email, password) {
 //Filmlist Funktionen
 
 //Macht eine Filmliste
-export async function makefilmlist(Filmlist)
-{
+export async function makefilmlist(Filmlist) {
   const response = await request(`/movielist`, {
     method: "POST",
-    body: JSON.stringify({Filmlist}),
+    body: JSON.stringify({ Filmlist }),
   });
 
   return response;
@@ -41,9 +40,8 @@ export async function makefilmlist(Filmlist)
 
 //Holt Liste mit einer id
 export async function getfilmlistbyid(filmListId) {
-
   const response = await request(`/movielist/${filmListId}`, {
-    method: "Get"
+    method: "Get",
   });
 
   return response;
@@ -51,9 +49,8 @@ export async function getfilmlistbyid(filmListId) {
 
 //Holt Alle Listen
 export async function getallfilmlist() {
-
   const response = await request(`/movielist/all`, {
-    method: "Get"
+    method: "Get",
   });
 
   return response;

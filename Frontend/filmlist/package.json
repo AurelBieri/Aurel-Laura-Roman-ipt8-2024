@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "format-check": "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "format-check": "npx prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "startdatabase": "cd ../../Docker && docker-compose up -d && docker exec -it mysql-demo mysql -u demo -p",
     "startbackend": "cd ../../Backend/Filmlist && dotnet restore && dotnet run "
   },
