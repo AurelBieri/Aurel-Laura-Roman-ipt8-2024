@@ -19,36 +19,33 @@ namespace Filmlist.Controllers
         }
 
         // POST api/movielist
-[Authorize]
-[HttpPost]
-public async Task<IActionResult> CreateList([FromBody] MovieList newList)
-{
-    if (newList == null || newList.UserId == 0)
-    {
-        return BadRequest("Invalid movie list or missing user information.");
-    }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateList([FromBody] MovieList newList)
+        {
+            if (newList == null || newList.UserId == 0)
+            {
+                return BadRequest("Invalid movie list or missing user information.");
+            }
 
-    var user = await _context.Users.FindAsync(newList.UserId);
-    if (user == null)
-    {
-        return NotFound("User not found.");
-    }
+            var user = await _context.Users.FindAsync(newList.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
 
-    newList.User = user;
+            newList.User = user;
 
-    foreach (var movie in newList.Movies)
-    {
-        movie.MovieList = newList;  
-    }
+            foreach (var movie in newList.Movies)
+            {
+                movie.MovieList = newList;  
+            }
 
-    _context.MovieLists.Add(newList);
-    await _context.SaveChangesAsync();
+            _context.MovieLists.Add(newList);
+            await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetListById), new { id = newList.Id }, newList);
-}
-
-
-
+            return CreatedAtAction(nameof(GetListById), new { id = newList.Id }, newList);
+        }
 
         // GET api/movielist/{id}
         [Authorize]
@@ -56,6 +53,21 @@ public async Task<IActionResult> CreateList([FromBody] MovieList newList)
         public async Task<IActionResult> GetListById(int id)
         {
             var list = await _context.MovieLists.Include(ml => ml.Movies).FirstOrDefaultAsync(ml => ml.Id == id);
+
+            if (list == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(list);
+        }
+
+        // GET api/movielist/all
+        [Authorize]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllLists(int id)
+        {
+            var list = await _context.MovieLists.ToListAsync();
 
             if (list == null)
             {
