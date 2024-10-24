@@ -36,6 +36,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -77,6 +78,7 @@ export default {
 .homepage {
   text-align: center;
   
+}
 .logo {
   width: 150px;
   margin-bottom: 20px;
