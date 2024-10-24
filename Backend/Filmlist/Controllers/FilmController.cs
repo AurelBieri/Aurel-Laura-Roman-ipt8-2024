@@ -65,9 +65,9 @@ namespace Filmlist.Controllers
         // GET api/movielist/all
         [Authorize]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllLists(int id)
+        public async Task<IActionResult> GetAllLists()
         {
-            var list = await _context.MovieLists.ToListAsync();
+            var list = await _context.MovieLists.Include(ml => ml.Movies).ToListAsync();
 
             if (list == null)
             {
