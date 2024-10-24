@@ -1,57 +1,75 @@
 <template>
-  <div class="watchlist-page">
-    <h1>{{ watchlist.title }}</h1>
-
-    <ul>
-      <li v-for="movie in watchlist.movies" :key="movie.title">
-        {{ movie.title }}
-      </li>
-    </ul>
-
-    <!-- Formular zum Hinzufügen eines neuen Films -->
-    <div class="add-movie">
-      <input v-model="newMovieTitle" placeholder="Neuen Film hinzufügen" />
-      <button @click="addMovie">Hinzufügen</button>
+  <div class="homepage">
+    <h1>Willkommen zu deinen Watchlists</h1>
+    <div class="watchlist-section">
+      <div class="grid">
+        <div class="column" v-for="watchlist in publicWatchlists" :key="watchlist.id">
+          <ul>
+            <li>
+              <router-link :to="{ name: 'Watchlist', params: { id: watchlist.id }}">
+                {{ watchlist.title }}
+              </router-link>
+            </li>
+            <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
+              {{ movie.title }}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'WatchlistPage', // Ändere den Namen in einen mehrteiligen Namen
-  props: ['id'],
+  name: 'HomePage',
   data() {
     return {
-      watchlist: null,
-      newMovieTitle: '',
+      publicWatchlists: JSON.parse(localStorage.getItem('watchlists')) || [
+        { id: 1, title: 'Top Filme 2023', movies: [{ title: 'Film 1' }, { title: 'Film 2' }, { title: 'Film 3' }, { title: 'Film 4' }, { title: 'Film 5' }, { title: 'Film 6' }] },
+        { id: 2, title: 'Meine Lieblingsserien', movies: [{ title: 'Serie 1' }, { title: 'Serie 2' }, { title: 'Serie 3' }] },
+        { id: 3, title: 'Dokumentationen', movies: [{ title: 'Doku 1' }, { title: 'Doku 2' }, { title: 'Doku 3' }, { title: 'Doku 4' }, { title: 'Doku 5' }, { title: 'Doku 6' }] },
+        { id: 4, title: 'Zukünftige Filme', movies: [{ title: 'Film 7' }, { title: 'Film 8' }] },
+        { id: 5, title: 'Top Horrorfilme', movies: [{ title: 'Horror 1' }, { title: 'Horror 2' }, { title: 'Horror 3' }, { title: 'Horror 4' }, { title: 'Horror 5' }, { title: 'Horror 6' }] }
+      ],
     };
-  },
-  mounted() {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-    this.watchlist = watchlists.find((wl) => wl.id == this.id);
-  },
-  methods: {
-    addMovie() {
-      if (this.newMovieTitle) {
-        this.watchlist.movies.push({ title: this.newMovieTitle });
-
-        const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-        const index = watchlists.findIndex((wl) => wl.id == this.id);
-        if (index !== -1) {
-          watchlists[index] = this.watchlist;
-          localStorage.setItem('watchlists', JSON.stringify(watchlists));
-        }
-
-        this.newMovieTitle = '';
-      }
-    },
-  },
+  }
 };
 </script>
 
 <style scoped>
-.watchlist-page {
+.homepage {
   padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr; 
+  }
+}
+
+.column {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+h1 {
+  color: #42b983;
+  text-align: center;
 }
 
 ul {
@@ -60,24 +78,16 @@ ul {
 }
 
 li {
-  margin: 10px 0;
-}
-
-.add-movie {
-  margin-top: 20px;
-}
-
-input {
   padding: 10px;
-  width: 300px;
+  border-bottom: 1px solid #ccc;
 }
 
-button {
-  padding: 10px;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+a {
+  text-decoration: none;
+  color: #42b983;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 </style>
