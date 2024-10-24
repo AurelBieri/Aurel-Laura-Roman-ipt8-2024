@@ -1,14 +1,35 @@
 <template>
   <div class="homepage">
-    <h1>Willkommen zu deinen Watchlists</h1>
-    <div class="watchlist-section">
+    <h1>Willkommen zu meiner Watchlist App</h1>
+
+    <!-- Logo anzeigen -->
+    <img src="@/Assets/watchlist.png" alt="Watchlist App Logo" class="logo"/>
+
+    <!-- Watchlist-Erstellungsformular -->
+    <div class="create-watchlist">
+      <input
+        type="text"
+        v-model="newWatchlistTitle"
+        placeholder="Watchlist-Titel eingeben"
+      />
+      <button @click="createWatchlist">Watchlist erstellen</button>
+       <!-- Liste der Watchlists anzeigen -->
+        <div class="watchlist-section">
       <div class="grid">
-        <div class="column" v-for="watchlist in publicWatchlists" :key="watchlist.id">
-          <ul>
+        <div class="column" v-for="watchlist in watchlists" :key="watchlist.id">
+          <ul class="watchlist-list">
+                  <!-- Verlinke zu den Watchlist-Details -->
             <li>
-              <router-link :to="{ name: 'Watchlist', params: { id: watchlist.id }}">
+              <router-link 
+              :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
+              class="watchlist-link"
+              exact
+              >
                 {{ watchlist.title }}
               </router-link>
+            </li>
+            <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
+              {{ movie.title }}
             </li>
           </ul>
         </div>
@@ -19,44 +40,52 @@
 
 <script>
 export default {
-  name: 'HomePage',
   data() {
     return {
-      publicWatchlists: JSON.parse(localStorage.getItem('watchlists')) || [
-        { id: 1, title: 'Top Filme 2023', movies: [] },
-        { id: 2, title: 'Meine Lieblingsserien', movies: [] },
-        { id: 3, title: 'Dokumentationen', movies: [] },
-        { id: 4, title: 'Zukünftige Filme', movies: [] },
-        { id: 5, title: 'Top Horrorfilme', movies: [] }, // More lists for testing
-        { id: 6, title: 'Comedy-Filme', movies: [] }
+      // Beispiel-Watchlists
+      watchlists: [
+        { id: 1, title: 'Top Filme', movies: ['Inception', 'Interstellar'] },
+        { id: 2, title: 'Action Filme', movies: ['Die Hard', 'Mad Max'] },
+        { id: 3, title: 'Romantische Filme', movies: ['Titanic', 'The Notebook'] },
       ],
+      newWatchlistTitle: '', // Eingabefeld für die neue Watchlist
     };
-  }
+  },
+  methods: {
+    // Methode zum Erstellen einer neuen Watchlist
+    createWatchlist() {
+      if (this.newWatchlistTitle.trim()) {
+        // Erstelle eine neue Watchlist mit einer eindeutigen ID und leeren Filmen
+        const newWatchlist = {
+          id: Date.now(), // Verwende die aktuelle Zeit als eindeutige ID
+          title: this.newWatchlistTitle.trim(),
+          movies: [], // Leere Liste für neue Watchlists
+        };
+
+        // Füge die neue Watchlist zur Liste hinzu
+        this.watchlists.push(newWatchlist);
+
+        // Setze das Eingabefeld zurück
+        this.newWatchlistTitle = '';
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .homepage {
-  padding: 20px;
+  text-align: center;
+  
+.logo {
+  width: 150px;
+  margin-bottom: 20px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columns per row */
   gap: 20px;
-}
-
-/* Ensure columns stack when screen width is below 800px */
-@media screen and (max-width: 800px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns per row on smaller screens */
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .grid {
-    grid-template-columns: 1fr; /* 1 column per row on very small screens */
-  }
 }
 
 .column {
@@ -71,22 +100,53 @@ h1 {
   text-align: center;
 }
 
-ul {
+.create-watchlist {
+  margin: 20px 0;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #369e73;
+}
+
+.watchlist-list {
   list-style: none;
   padding: 0;
 }
 
-li {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+.watchlist-list li {
+  margin: 10px 0;
 }
 
-a {
+.watchlist-link {
   text-decoration: none;
-  color: #42b983;
+  color: #333;
 }
 
-a:hover {
+.watchlist-link:hover {
   text-decoration: underline;
+}
+
+/* Aktiver Link wird fett */
+.router-link-active {
+  font-weight: bold;
 }
 </style>

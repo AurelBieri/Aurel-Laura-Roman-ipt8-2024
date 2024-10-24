@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{8AB311B5-5C61-487B-8623-297497BE07BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmlist", "Backend\Filmlist\Filmlist.csproj", "{4C3DAF31-1767-4EB6-B92D-99D753D3527C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C3DAF31-1767-4EB6-B92D-99D753D3527C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3DAF31-1767-4EB6-B92D-99D753D3527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3DAF31-1767-4EB6-B92D-99D753D3527C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3DAF31-1767-4EB6-B92D-99D753D3527C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C3DAF31-1767-4EB6-B92D-99D753D3527C} = {8AB311B5-5C61-487B-8623-297497BE07BB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {385E29A0-0272-47FE-BBA0-F6D8DE1CDD89}
+	EndGlobalSection
+EndGlobal

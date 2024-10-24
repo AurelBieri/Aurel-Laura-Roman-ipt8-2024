@@ -9,10 +9,10 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/watchlist/:id',
+    path: '/watchlist/:id', // Dynamische Route für Watchlist
     name: 'Watchlist',
     component: WatchlistPage,
-    props: true, // Übergibt die ID als Prop an die WatchlistPage
+    props: true, // Übergibt die Route-Parameter als Props
   },
 ];
 

@@ -1,70 +1,80 @@
 <template>
-  <div class="homepage">
-    <h1>Willkommen zu deinen Watchlists</h1>
-    <div class="watchlist-section">
-      <div class="grid">
-        <div class="column" v-for="watchlist in publicWatchlists" :key="watchlist.id">
-          <ul>
-            <li>
-              <router-link :to="{ name: 'Watchlist', params: { id: watchlist.id }}">
-                {{ watchlist.title }}
-              </router-link>
-            </li>
-            <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
-              {{ movie.title }}
-            </li>
-          </ul>
-        </div>
+  <div class="watchlist-page">
+    <!-- Normale Ansicht der Watchlist, wenn sie gefunden wurde -->
+    <div v-if="watchlist">
+      <h1>{{ watchlist.title }}</h1>
+
+      <!-- Liste der Filme anzeigen -->
+      <ul>
+        <li v-for="(movie, index) in watchlist.movies" :key="index">
+          {{ movie }}
+          <button @click="removeMovie(index)">Löschen</button>
+        </li>
+      </ul>
+
+      <!-- Formular zum Hinzufügen eines neuen Films -->
+      <div class="add-movie">
+        <input v-model="newMovieTitle" placeholder="Neuen Film hinzufügen" />
+        <button @click="addMovie">Hinzufügen</button>
       </div>
+    </div>
+
+    <!-- Zeige eine Meldung, falls die Watchlist nicht gefunden wurde -->
+    <div v-else>
+      <p>Watchlist wird geladen oder existiert nicht.</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomePage',
+  props: ['id'], // Die ID der Watchlist wird als Prop übergeben
   data() {
     return {
-      publicWatchlists: JSON.parse(localStorage.getItem('watchlists')) || [
-        { id: 1, title: 'Top Filme 2023', movies: [{ title: 'Film 1' }, { title: 'Film 2' }, { title: 'Film 3' }, { title: 'Film 4' }, { title: 'Film 5' }, { title: 'Film 6' }] },
-        { id: 2, title: 'Meine Lieblingsserien', movies: [{ title: 'Serie 1' }, { title: 'Serie 2' }, { title: 'Serie 3' }] },
-        { id: 3, title: 'Dokumentationen', movies: [{ title: 'Doku 1' }, { title: 'Doku 2' }, { title: 'Doku 3' }, { title: 'Doku 4' }, { title: 'Doku 5' }, { title: 'Doku 6' }] },
-        { id: 4, title: 'Zukünftige Filme', movies: [{ title: 'Film 7' }, { title: 'Film 8' }] },
-        { id: 5, title: 'Top Horrorfilme', movies: [{ title: 'Horror 1' }, { title: 'Horror 2' }, { title: 'Horror 3' }, { title: 'Horror 4' }, { title: 'Horror 5' }, { title: 'Horror 6' }] }
-      ],
+      watchlist: null, // Die aktuelle Watchlist
+      newMovieTitle: '', // Eingabefeld für neuen Film
     };
-  }
+  },
+  mounted() {
+    // Debugging: Ausgabe der ID
+    console.log('Übergebene ID:', this.id);
+
+    // Beispiel-Watchlists
+    const watchlists = [
+      { id: 1, title: 'Top Filme', movies: ['Inception', 'Interstellar'] },
+      { id: 2, title: 'Action Filme', movies: ['Die Hard', 'Mad Max'] },
+      { id: 3, title: 'Romantische Filme', movies: ['Titanic', 'The Notebook'] },
+    ];
+
+    // Finde die aktuelle Watchlist basierend auf der ID
+    this.watchlist = watchlists.find((wl) => wl.id == this.id);
+
+    if (this.watchlist) {
+      console.log('Gefundene Watchlist:', this.watchlist);
+    } else {
+      console.error(`Watchlist mit ID ${this.id} wurde nicht gefunden.`);
+    }
+  },
+  methods: {
+    // Methode zum Hinzufügen eines neuen Films
+    addMovie() {
+      if (this.newMovieTitle) {
+        this.watchlist.movies.push(this.newMovieTitle);
+        this.newMovieTitle = '';
+      }
+    },
+
+    // Methode zum Löschen eines Films
+    removeMovie(index) {
+      this.watchlist.movies.splice(index, 1);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .homepage {
   padding: 20px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
-}
-
-@media screen and (max-width: 800px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr); 
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .grid {
-    grid-template-columns: 1fr; 
-  }
-}
-
-.column {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 h1 {
@@ -80,6 +90,24 @@ ul {
 li {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkred;
 }
 
 a {
@@ -89,5 +117,24 @@ a {
 
 a:hover {
   text-decoration: underline;
+
+input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
+
+button:hover {
+  background-color: #369e73;
 }
 </style>
