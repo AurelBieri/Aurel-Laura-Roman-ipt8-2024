@@ -73,8 +73,13 @@ export default {
 </script>
 
 <style scoped>
-.watchlist-page {
+.homepage {
   padding: 20px;
+}
+
+h1 {
+  color: #42b983;
+  text-align: center;
 }
 
 ul {
@@ -83,6 +88,9 @@ ul {
 }
 
 li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+
   margin: 10px 0;
   display: flex;
   justify-content: space-between;
@@ -102,9 +110,13 @@ button:hover {
   background-color: darkred;
 }
 
-.add-movie {
-  margin-top: 20px;
+a {
+  text-decoration: none;
+  color: #42b983;
 }
+
+a:hover {
+  text-decoration: underline;
 
 input {
   padding: 10px;
@@ -119,6 +131,7 @@ button {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+
 }
 
 button:hover {

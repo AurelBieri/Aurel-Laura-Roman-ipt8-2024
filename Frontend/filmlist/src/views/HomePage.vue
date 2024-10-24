@@ -13,21 +13,28 @@
         placeholder="Watchlist-Titel eingeben"
       />
       <button @click="createWatchlist">Watchlist erstellen</button>
+       <!-- Liste der Watchlists anzeigen -->
+        <div class="watchlist-section">
+      <div class="grid">
+        <div class="column" v-for="watchlist in watchlists" :key="watchlist.id">
+          <ul class="watchlist-list">
+                  <!-- Verlinke zu den Watchlist-Details -->
+            <li>
+              <router-link 
+              :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
+              class="watchlist-link"
+              exact
+              >
+                {{ watchlist.title }}
+              </router-link>
+            </li>
+            <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
+              {{ movie.title }}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <!-- Liste der Watchlists anzeigen -->
-    <ul class="watchlist-list">
-      <li v-for="watchlist in watchlists" :key="watchlist.id">
-        <!-- Verlinke zu den Watchlist-Details -->
-        <router-link 
-          :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
-          class="watchlist-link"
-          exact
-        >
-          {{ watchlist.title }}
-        </router-link>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -69,11 +76,28 @@ export default {
 <style scoped>
 .homepage {
   text-align: center;
-}
-
+  
 .logo {
   width: 150px;
   margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns per row */
+  gap: 20px;
+}
+
+.column {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+h1 {
+  color: #42b983;
+  text-align: center;
 }
 
 .create-watchlist {
