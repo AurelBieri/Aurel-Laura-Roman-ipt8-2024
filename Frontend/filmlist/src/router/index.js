@@ -41,10 +41,10 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('session_token'); 
+  const isAuthenticated = localStorage.getItem("session_token");
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login'); 
+    next("/login");
   } else {
     next();
   }

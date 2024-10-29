@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql("Server=127.0.0.1; Port=3308; Database=Filmlist-Database; User=demo;Password=demo;",
+    options.UseMySql("Server=127.0.0.1; Port=3305; Database=Filmlist-Database; User=root;Password=root;",
     new MySqlServerVersion(new Version(8, 0, 25)))); //Only for testing
 
 
@@ -39,6 +39,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = "localhost", 
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknjjdjfjdsaofaoifaiJEUHWUOIJ9384U29848HDAJNJkdaj9dan35n32n5")) //Ist noch nicht sicher und nur für entwicklung
         };
+    });
+    
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     });
 
 var app = builder.Build();

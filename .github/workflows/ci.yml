@@ -18,19 +18,17 @@ jobs:
           node-version: '18.x'
 
       - name: Install dependencies
-        run: |
-          cd frontend/filmlist
-          npm install
+        run: npm install
+        working-directory: Frontend/filmlist  
 
       - name: Run linter
-        run: |
-          cd frontend/filmlist
-          npm run lint
+        run: npm run lint
+        working-directory: Frontend/filmlist  
 
       - name: Format code
-        run: |
-          cd frontend/filmlist
-          npm run format-check
+        run: npm run format-check
+        working-directory: Frontend/filmlist  
 
-    #  - name: Run tests
-      #  run: npm test
+   #   - name: Run tests
+   #     run: npm test
+    #    working-directory: Frontend/filmlist
