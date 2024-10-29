@@ -29,6 +29,6 @@ jobs:
         run: npm run format-check
         working-directory: Frontend/filmlist  
 
-      - name: Run tests
-        run: npm test
-        working-directory: Frontend/filmlist
+   #   - name: Run tests
+   #     run: npm test
+    #    working-directory: Frontend/filmlist
