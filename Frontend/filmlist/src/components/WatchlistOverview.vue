@@ -3,7 +3,7 @@
     <ul>
       <li v-for="watchlist in watchlists" :key="watchlist.id">
         <router-link :to="{ name: 'Watchlist', params: { id: watchlist.id }}">
-          {{ watchlist.title }}
+          {{ watchlist.name }}
         </router-link>
       </li>
     </ul>

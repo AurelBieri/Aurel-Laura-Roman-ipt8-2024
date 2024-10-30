@@ -13,19 +13,21 @@
         placeholder="Watchlist-Titel eingeben"
       />
       <button @click="createWatchlist">Watchlist erstellen</button>
-       <!-- Liste der Watchlists anzeigen -->
-        <div class="watchlist-section">
+    </div>
+
+    <!-- Liste der Watchlists anzeigen -->
+    <div class="watchlist-section">
       <div class="grid">
         <div class="column" v-for="watchlist in watchlists" :key="watchlist.id">
           <ul class="watchlist-list">
-                  <!-- Verlinke zu den Watchlist-Details -->
+            <!-- Verlinke zu den Watchlist-Details -->
             <li>
               <router-link 
-              :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
-              class="watchlist-link"
-              exact
+                :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
+                class="watchlist-link"
+                exact
               >
-                {{ watchlist.title }}
+                {{ watchlist.name }}
               </router-link>
             </li>
             <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
@@ -36,38 +38,60 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 
 <script>
+import { makefilmlist, getallfilmlist } from '@/api/request';
+
 export default {
   data() {
     return {
-      // Beispiel-Watchlists
-      watchlists: [
-        { id: 1, title: 'Top Filme', movies: ['Inception', 'Interstellar'] },
-        { id: 2, title: 'Action Filme', movies: ['Die Hard', 'Mad Max'] },
-        { id: 3, title: 'Romantische Filme', movies: ['Titanic', 'The Notebook'] },
-      ],
-      newWatchlistTitle: '', // Eingabefeld für die neue Watchlist
+      watchlists: [], 
+      newWatchlistTitle: '', 
     };
   },
+  async mounted() {
+    await this.fetchWatchlists();
+  },
   methods: {
-    // Methode zum Erstellen einer neuen Watchlist
-    createWatchlist() {
+    async fetchWatchlists() {
+  try {
+    const response = await getallfilmlist();
+    console.log("Fetched watchlists:", response); // Log the response for debugging
+
+    // Assuming response.$values is where the actual data is
+    this.watchlists = response.$values.map(watchlist => ({
+      id: watchlist.id,
+      name: watchlist.name,
+      createdAt: watchlist.createdAt,
+      updatedAt: watchlist.updatedAt,
+      movies: watchlist.movies.$values || [], // Extract movies array
+    }));
+  } catch (error) {
+    console.error("Error fetching watchlists:", error);
+  }
+}
+,
+
+    async createWatchlist() {
       if (this.newWatchlistTitle.trim()) {
-        // Erstelle eine neue Watchlist mit einer eindeutigen ID und leeren Filmen
         const newWatchlist = {
-          id: Date.now(), // Verwende die aktuelle Zeit als eindeutige ID
           title: this.newWatchlistTitle.trim(),
-          movies: [], // Leere Liste für neue Watchlists
+          movies: [], // Initialize with an empty list of movies
         };
 
-        // Füge die neue Watchlist zur Liste hinzu
-        this.watchlists.push(newWatchlist);
-
-        // Setze das Eingabefeld zurück
-        this.newWatchlistTitle = '';
+        try {
+          const response = await makefilmlist(newWatchlist);
+          if (response.ok) {
+            const createdWatchlist = await response.json();
+            this.watchlists.push(createdWatchlist); // Add to watchlists
+            this.newWatchlistTitle = ''; // Clear input
+          } else {
+            console.error("Failed to create watchlist.");
+          }
+        } catch (error) {
+          console.error("Error creating watchlist:", error);
+        }
       }
     },
   },
@@ -77,8 +101,8 @@ export default {
 <style scoped>
 .homepage {
   text-align: center;
-  
 }
+
 .logo {
   width: 150px;
   margin-bottom: 20px;
@@ -86,7 +110,7 @@ export default {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns per row */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -147,7 +171,6 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Aktiver Link wird fett */
 .router-link-active {
   font-weight: bold;
 }

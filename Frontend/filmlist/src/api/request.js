@@ -44,6 +44,7 @@ export async function getfilmlistbyid(filmListId) {
     method: "Get",
   });
 
+  console.log(response)
   return response;
 }
 
@@ -52,7 +53,7 @@ export async function getallfilmlist() {
   const response = await request(`/movielist/all`, {
     method: "Get",
   });
-
+  console.log(response);
   return response;
 }
 
