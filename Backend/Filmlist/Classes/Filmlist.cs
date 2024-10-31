@@ -1,7 +1,7 @@
 namespace Filmlist.Classes{
     public class MovieList
 {
-    public int Id { get; set; }
+    public int ?Id { get; set; }
 
     public int UserId { get; set; }
     public User ?User { get; set; } 
