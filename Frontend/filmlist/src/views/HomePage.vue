@@ -19,21 +19,19 @@
     <div class="watchlist-section">
       <div class="grid">
         <div class="column" v-for="watchlist in watchlists" :key="watchlist.id">
+          <router-link 
+            :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
+            class="watchlist-link">
           <ul class="watchlist-list">
             <!-- Verlinke zu den Watchlist-Details -->
-            <li>
-              <router-link 
-                :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
-                class="watchlist-link"
-                exact
-              >
+            <li class="list">
                 {{ watchlist.name }}
-              </router-link>
             </li>
-            <li v-for="(movie, index) in watchlist.movies.slice(0, 5)" :key="index">
+            <li class="mov" v-for="(movie, index) in watchlist.movies.slice(0, 3)" :key="index">
               {{ movie.title }}
             </li>
           </ul>
+        </router-link>
         </div>
       </div>
     </div>
@@ -121,6 +119,17 @@ export default {
   border-radius: 8px;
 }
 
+.list {
+  text-align: center;
+  font-size:large;
+  font-weight: 600;
+}
+
+.mov {
+  text-align: center;
+  font-size:small;
+}
+
 h1 {
   color: #42b983;
   text-align: center;
@@ -163,13 +172,19 @@ button:hover {
 }
 
 .watchlist-link {
-  text-decoration: none;
-  color: #333;
+  display: block; 
+  text-decoration: none; 
+  color: #333; 
+  width: 100%; 
+  height: 100%; 
+  padding: 20px; 
+  box-sizing: border-box; 
 }
 
 .watchlist-link:hover {
-  text-decoration: underline;
+  background-color: #f0f0f0; 
 }
+
 
 .router-link-active {
   font-weight: bold;
