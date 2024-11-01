@@ -42,6 +42,7 @@
 
 <script>
 import { makefilmlist, getallfilmlist } from '@/api/request';
+export const STORAGE_KEY = "session_token";
 
 export default {
   data() {
@@ -73,27 +74,28 @@ export default {
 }
 ,
 
-    async createWatchlist() {
-      if (this.newWatchlistTitle.trim()) {
-        const newWatchlist = {
-          title: this.newWatchlistTitle.trim(),
-          movies: [], // Initialize with an empty list of movies
-        };
+async createWatchlist() {
+  if (this.newWatchlistTitle) {
+    const userId = parseInt(localStorage.getItem('USERID'), 10);
+    const newWatchlist = {
+      userId: userId,
+      name: this.newWatchlistTitle,
+      movies: [],
+    };
 
-        try {
-          const response = await makefilmlist(newWatchlist);
-          if (response.ok) {
-            const createdWatchlist = await response.json();
-            this.watchlists.push(createdWatchlist); // Add to watchlists
-            this.newWatchlistTitle = ''; // Clear input
-          } else {
-            console.error("Failed to create watchlist.");
-          }
-        } catch (error) {
-          console.error("Error creating watchlist:", error);
-        }
-      }
-    },
+    try {
+      // Directly await the response from makefilmlist
+      const createdWatchlist = await makefilmlist(newWatchlist);
+      console.log("Created watchlist:", createdWatchlist); // Log the created watchlist
+      this.newWatchlistTitle = ''; // Clear input
+      await this.fetchWatchlists(); // Reload the watchlists
+    } catch (error) {
+      console.error("Error creating watchlist:", error);
+    }
+  }
+}
+
+,
   },
 };
 </script>

@@ -24,7 +24,7 @@ namespace Filmlist.Controllers
         }
 
         [AllowAnonymous]
-          [HttpPost("login")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest loginDto)
         {
             var user = _context.Users.SingleOrDefault(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
@@ -36,8 +36,10 @@ namespace Filmlist.Controllers
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { token });
+            // Include the user ID in the response
+            return Ok(new { token, userId = user.Id }); // Assuming user.Id is the ID of the user
         }
+
 
         private string GenerateJwtToken(User user)
         {

@@ -5,6 +5,7 @@ const backend = "http://localhost:5000/api";
 const { token, setToken } = useToken();
 
 export async function login(Email, password) {
+  console.log("works")
   const response = await request(`/user/login`, {
     method: "POST",
     body: JSON.stringify({ Email, password }),
@@ -12,8 +13,8 @@ export async function login(Email, password) {
 
   if (response.token) {
     setToken(response.token);
+    localStorage.setItem('USERID', response.userId);
   }
-
   return response.token;
 }
 
@@ -30,9 +31,10 @@ export async function register(username, Email, password) {
 
 //Macht eine Filmliste
 export async function makefilmlist(Filmlist) {
+  console.log(Filmlist)
   const response = await request(`/movielist`, {
     method: "POST",
-    body: JSON.stringify({ Filmlist }),
+    body: JSON.stringify(Filmlist),
   });
 
   return response;
