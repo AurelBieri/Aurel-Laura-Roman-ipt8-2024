@@ -57,7 +57,8 @@ export default {
   methods: {
     async fetchWatchlists() {
   try {
-    const response = await getallfilmlist();
+    const userId = parseInt(localStorage.getItem('USERID'), 10);
+    const response = await getallfilmlist(userId);
     console.log("Fetched watchlists:", response); // Log the response for debugging
 
     // Assuming response.$values is where the actual data is
@@ -84,11 +85,10 @@ async createWatchlist() {
     };
 
     try {
-      // Directly await the response from makefilmlist
       const createdWatchlist = await makefilmlist(newWatchlist);
-      console.log("Created watchlist:", createdWatchlist); // Log the created watchlist
-      this.newWatchlistTitle = ''; // Clear input
-      await this.fetchWatchlists(); // Reload the watchlists
+      console.log("Created watchlist:", createdWatchlist); 
+      this.newWatchlistTitle = ''; 
+      await this.getallfilmlist(userId);
     } catch (error) {
       console.error("Error creating watchlist:", error);
     }

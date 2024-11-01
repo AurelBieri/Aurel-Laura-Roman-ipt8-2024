@@ -43,13 +43,14 @@ namespace Filmlist.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknjjdjfjdsaofaoifaiJEUHWUOIJ9384U29848HDAJNJkdaj9dan35n32n5")); //Muss nach der Entwicklung sicherer gemacht werden
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("isafknjjdjfjdsaofaoifaiJEUHWUOIJ9384U29848HDAJNJkdaj9dan35n32n5")); // Muss nach der Entwicklung sicherer gemacht werden
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            Console.WriteLine(user.Id);
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) // Füge den Benutzer-Claim hinzu
             };
 
             var token = new JwtSecurityToken(
@@ -61,6 +62,7 @@ namespace Filmlist.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
         // POST api/user
         [HttpPost("register")]

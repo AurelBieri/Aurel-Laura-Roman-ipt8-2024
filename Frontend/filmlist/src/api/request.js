@@ -51,8 +51,8 @@ export async function getfilmlistbyid(filmListId) {
 }
 
 //Holt Alle Listen
-export async function getallfilmlist() {
-  const response = await request(`/movielist/all`, {
+export async function getallfilmlist(userid) {
+  const response = await request(`/movielist/all/${userid}`, {
     method: "Get",
   });
   console.log(response);

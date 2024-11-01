@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Filmlist.Classes;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -64,18 +66,33 @@ namespace Filmlist.Controllers
 
         // GET api/movielist/all
         [Authorize]
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllLists()
+        [HttpGet("all/{userId:int}")]
+        public async Task<IActionResult> GetAllLists(int userId)
         {
-            var list = await _context.MovieLists.Include(ml => ml.Movies).ToListAsync();
+            // Check if the user ID is valid
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid user ID");
+            }
 
-            if (list == null)
+            var lists = await _context.MovieLists
+                .Where(ml => ml.UserId == userId)
+                .Include(ml => ml.Movies)
+                .ToListAsync();
+
+            if (lists == null || !lists.Any())
             {
                 return NotFound();
             }
 
-            return Ok(list);
+            return Ok(lists);
         }
+
+
+
+
+
+
 
         // PUT api/movielist/{id}
         [Authorize]
