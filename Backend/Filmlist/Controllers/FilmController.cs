@@ -88,34 +88,24 @@ namespace Filmlist.Controllers
             return Ok(lists);
         }
 
-
-
-
-
-
-
-        // PUT api/movielist/{id}
+        // Post api/movielist/Add
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateList(int id, [FromBody] MovieList updatedList)
+        [HttpPost("{listId}/movies")]
+        public async Task<IActionResult> AddMovieToList(int listId, [FromBody] MovieItem newMovie)
         {
-            if (id != updatedList.Id)
+            var movieList = await _context.MovieLists.Include(ml => ml.Movies).FirstOrDefaultAsync(ml => ml.Id == listId);
+            if (movieList == null)
             {
-                return BadRequest();
+                return NotFound("Watchlist not found.");
             }
 
-            var existingList = await _context.MovieLists.FindAsync(id);
-            if (existingList == null)
-            {
-                return NotFound();
-            }
-
-            existingList.Name = updatedList.Name;
-            _context.Entry(existingList).State = EntityState.Modified;
+            newMovie.MovieListId = listId;
+            movieList.Movies.Add(newMovie);
+            movieList.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(newMovie);
         }
 
         // DELETE api/movielist/{id}
@@ -153,5 +143,19 @@ namespace Filmlist.Controllers
 
             return NoContent();
         }
+
+        //Delete Movie out of list
+        [HttpDelete("{listId}/movie/{movieId}")]
+        public async Task<IActionResult> DeleteMovie(int listId, int movieId)
+        {
+            var movie = await _context.MovieItems.FindAsync(movieId);
+            if (movie == null || movie.MovieListId != listId) return NotFound("Movie not found in this list.");
+
+            _context.MovieItems.Remove(movie);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
     }
 }

@@ -59,6 +59,39 @@ export async function getallfilmlist(userid) {
   return response;
 }
 
+// Fügt Film zur Watchliste hinzu
+export async function addMovieToWatchlist(filmListId, movie) {
+  const response = await request(`/movielist/${filmListId}/movies`, {
+    method: "POST",
+    body: JSON.stringify(movie),
+  });
+
+  return response;
+}
+
+// Markiert einen Film als "watched"
+export async function markMovieAsWatched(listId, movieId) {
+  return await request(`/movielist/${listId}/movie/${movieId}/mark-watched`, {
+    method: "PUT",
+  });
+}
+
+// Löscht einen Film
+export async function deleteMovieFromWatchlist(listId, movieId) {
+  return await request(`/movielist/${listId}/movie/${movieId}`, {
+    method: "DELETE",
+  });
+}
+
+// Funktion zum Löschen der gesamten Watchlist
+export async function deleteWatchlistById(watchlistId) {
+  await request(`/movielist/${watchlistId}`, {
+    method: "DELETE",
+  });
+}
+
+
+
 // Die Funktion welche requests macht
 async function request(url, options) {
   const headers = {
@@ -73,15 +106,20 @@ async function request(url, options) {
   const response = await fetch(backend + url, { headers, ...options });
 
   if (response.ok) {
-    return response.json();
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return response.json(); // Nur JSON parsen, wenn der Inhaltstyp JSON ist
+    } else {
+      return; // Rückgabe ohne Inhalt für DELETE-Anfragen
+    }
   } else if (response.status === 422) {
     const data = await response.json();
-
     throw new ValidationError("validation failed", data.errors);
   } else {
     throw new Error(`Server error: ${await response.text()}`);
   }
 }
+
 
 class ValidationError {
   message;

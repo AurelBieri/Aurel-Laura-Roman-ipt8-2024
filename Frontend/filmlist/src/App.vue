@@ -3,11 +3,12 @@
     <header>
       <div class="header-content">
         <router-link to="/">
-        <img src="@/Assets/watchlist-logo.jpg" alt="Watchlist App Logo" class="logo"/>
-      </router-link>
-        <h1>Deine Watchlisten</h1>
+          <img src="@/Assets/watchlist-logo.jpg" alt="Watchlist App Logo" class="logo"/>
+        </router-link>
+        <h1>Your Watchlists</h1>
         <nav>
           <router-link to="/">Home</router-link>
+          <router-link v-if="isLoggedIn" to="#" @click.prevent="logout">Logout</router-link>
         </nav>
       </div>
     </header>
@@ -20,6 +21,21 @@
 <script>
 export default {
   name: 'App',
+  computed: {
+    isLoggedIn() {
+      // Check if the session token exists in local storage
+      return !!localStorage.getItem('session_token');
+    }
+  },
+  methods: {
+    logout() {
+      // Clear user data from local storage
+      localStorage.removeItem('USERID');
+      localStorage.removeItem('session_token');
+      // Redirect to the login page after logging out
+      this.$router.push('/login');
+    }
+  },
 };
 </script>
 
@@ -38,7 +54,7 @@ header {
   position: relative; 
 }
 
-/* Header-Inhalt */
+/* Header Content */
 .header-content {
   display: flex;
   align-items: center;

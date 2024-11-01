@@ -1,18 +1,18 @@
 <template>
   <div class="homepage">
-    <h1>Schau dir deine Watchlisten an</h1>
+    <h1>View Your Watchlists</h1>
 
-    <!-- Watchlist-Erstellungsformular -->
+    <!-- Watchlist creation form -->
     <div class="create-watchlist">
       <input
         type="text"
         v-model="newWatchlistTitle"
-        placeholder="Watchlist-Titel eingeben"
+        placeholder="Enter watchlist title"
       />
-      <button @click="createWatchlist">Watchlist erstellen</button>
+      <button @click="createWatchlist">Create Watchlist</button>
     </div>
 
-    <!-- Liste der Watchlists anzeigen -->
+    <!-- Display list of watchlists -->
     <div class="watchlist-section">
       <div class="grid">
         <div class="column" v-for="watchlist in watchlists" :key="watchlist.id">
@@ -22,7 +22,7 @@
             <div class="watchlist-card">
               <h3 class="watchlist-title">{{ watchlist.name }}</h3>
               <ul class="watchlist-list">
-                <li class="list">Filme:</li>
+                <li class="list">Movies:</li>
                 <li class="mov" v-for="(movie, index) in watchlist.movies.slice(0, 3)" :key="index">
                   {{ movie.title }}
                 </li>
@@ -34,6 +34,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { makefilmlist, getallfilmlist } from '@/api/request';
