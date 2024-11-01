@@ -1,9 +1,6 @@
 <template>
   <div class="homepage">
-    <h1>Willkommen zu meiner Watchlist App</h1>
-
-    <!-- Logo anzeigen -->
-    <img src="@/Assets/watchlist.png" alt="Watchlist App Logo" class="logo"/>
+    <h1>Schau dir deine Watchlisten an</h1>
 
     <!-- Watchlist-Erstellungsformular -->
     <div class="create-watchlist">
@@ -22,16 +19,16 @@
           <router-link 
             :to="{ name: 'Watchlist', params: { id: watchlist.id }}"
             class="watchlist-link">
-          <ul class="watchlist-list">
-            <!-- Verlinke zu den Watchlist-Details -->
-            <li class="list">
-                {{ watchlist.name }}
-            </li>
-            <li class="mov" v-for="(movie, index) in watchlist.movies.slice(0, 3)" :key="index">
-              {{ movie.title }}
-            </li>
-          </ul>
-        </router-link>
+            <div class="watchlist-card">
+              <h3 class="watchlist-title">{{ watchlist.name }}</h3>
+              <ul class="watchlist-list">
+                <li class="list">Filme:</li>
+                <li class="mov" v-for="(movie, index) in watchlist.movies.slice(0, 3)" :key="index">
+                  {{ movie.title }}
+                </li>
+              </ul>
+            </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -54,46 +51,42 @@ export default {
   },
   methods: {
     async fetchWatchlists() {
-  try {
-    const userId = parseInt(localStorage.getItem('USERID'), 10);
-    const response = await getallfilmlist(userId);
-    console.log("Fetched watchlists:", response); // Log the response for debugging
+      try {
+        const userId = parseInt(localStorage.getItem('USERID'), 10);
+        const response = await getallfilmlist(userId);
+        console.log("Fetched watchlists:", response); // Log the response for debugging
 
-    // Assuming response.$values is where the actual data is
-    this.watchlists = response.$values.map(watchlist => ({
-      id: watchlist.id,
-      name: watchlist.name,
-      createdAt: watchlist.createdAt,
-      updatedAt: watchlist.updatedAt,
-      movies: watchlist.movies.$values || [], // Extract movies array
-    }));
-  } catch (error) {
-    console.error("Error fetching watchlists:", error);
-  }
-}
-,
+        this.watchlists = response.$values.map(watchlist => ({
+          id: watchlist.id,
+          name: watchlist.name,
+          createdAt: watchlist.createdAt,
+          updatedAt: watchlist.updatedAt,
+          movies: watchlist.movies.$values || [],
+        }));
+      } catch (error) {
+        console.error("Error fetching watchlists:", error);
+      }
+    },
 
-async createWatchlist() {
-  if (this.newWatchlistTitle) {
-    const userId = parseInt(localStorage.getItem('USERID'), 10);
-    const newWatchlist = {
-      userId: userId,
-      name: this.newWatchlistTitle,
-      movies: [],
-    };
+    async createWatchlist() {
+      if (this.newWatchlistTitle) {
+        const userId = parseInt(localStorage.getItem('USERID'), 10);
+        const newWatchlist = {
+          userId: userId,
+          name: this.newWatchlistTitle,
+          movies: [],
+        };
 
-    try {
-      const createdWatchlist = await makefilmlist(newWatchlist);
-      console.log("Created watchlist:", createdWatchlist); 
-      this.newWatchlistTitle = ''; 
-      await this.getallfilmlist(userId);
-    } catch (error) {
-      console.error("Error creating watchlist:", error);
-    }
-  }
-}
-
-,
+        try {
+          const createdWatchlist = await makefilmlist(newWatchlist);
+          console.log("Created watchlist:", createdWatchlist); 
+          this.newWatchlistTitle = ''; 
+          await this.fetchWatchlists();
+        } catch (error) {
+          console.error("Error creating watchlist:", error);
+        }
+      }
+    },
   },
 };
 </script>
@@ -101,6 +94,9 @@ async createWatchlist() {
 <style scoped>
 .homepage {
   text-align: center;
+  background-color: #f0f4f8; /* Light background color for contrast */
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .logo {
@@ -110,31 +106,48 @@ async createWatchlist() {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
   gap: 20px;
+  margin: 20px;
 }
 
 .column {
-  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.watchlist-card {
+  background-color: #e3f2fd; /* Light blue background */
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #bbdefb; /* Soft blue border */
   border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.watchlist-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.watchlist-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #1e88e5; /* Darker blue for title */
 }
 
 .list {
-  text-align: center;
-  font-size:large;
   font-weight: 600;
+  margin-bottom: 5px;
+  color: #424242; /* Dark grey for text */
 }
 
 .mov {
-  text-align: center;
-  font-size:small;
-}
-
-h1 {
-  color: #42b983;
-  text-align: center;
+  font-size: small;
+  margin: 5px 0;
+  color: #616161; /* Slightly lighter grey for movie titles */
 }
 
 .create-watchlist {
@@ -145,23 +158,24 @@ input {
   padding: 10px;
   width: 300px;
   margin-right: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #bbdefb; /* Light blue border */
   border-radius: 5px;
   font-size: 16px;
 }
 
 button {
   padding: 10px 20px;
-  background-color: #42b983;
+  background-color: #2196f3; /* Button blue color */
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background-color: #369e73;
+  background-color: #1976d2; /* Darker blue on hover */
 }
 
 .watchlist-list {
@@ -170,7 +184,7 @@ button:hover {
 }
 
 .watchlist-list li {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 .watchlist-link {
@@ -182,11 +196,6 @@ button:hover {
   padding: 20px; 
   box-sizing: border-box; 
 }
-
-.watchlist-link:hover {
-  background-color: #f0f0f0; 
-}
-
 
 .router-link-active {
   font-weight: bold;

@@ -50,7 +50,7 @@ async function handleLogin(event) {
   event.preventDefault();
   try {
     await login(email.value, password.value);
-    await router.push('/list');
+    await router.push('/');
   } catch (exception) {
     errors.value = exception.errors || { email: 'Login failed', password: 'Login failed' };
   }
