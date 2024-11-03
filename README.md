@@ -16,11 +16,13 @@ Welche Datenbank oder Datenpackete wir brauchen ist noch nicht klar.
 Das Docker Setup ist noch nicht fertig, deswegen lassen wir Docker für den Moment noch aus der Anleitung.
 Man kann es aber schon ausführen, indem man folgende Schritte macht:
 1. Das Projekt mit Git Klonen
-2. Dann mit dem npm befehl alle Abhängigkeiten herunterladen: npm ci (man muss im Frontend/filmlist Ordner sein)
-3. Das Projekt mit folgendem Befehl starten: npm run serve
-4. Den Befehl ausführen um die Datenbank zu starten: npm run startdatabse (in Frontend/filmlist)
-5. Den Befehl ausführen um das Backend zu starten: npm run startbackend (in Fronend/filmlist)
-6. Mehr kann ich hier im Moment noch nicht schreiben, aber nächste Woche, wenn Docker fertig eingerichtet ist, kann ich dann die richtige Setup-Anleitung machen. Nächste Woche sollte es dann fertig eingerichted sein mit docker Compose und npm scripts.
+2. Im Terminal in den Ordner Frontend/filmlist navigieren.
+3. Dann mit dem npm befehl alle Abhängigkeiten herunterladen: npm ci (man muss im Frontend/filmlist Ordner sein)
+4. Das Projekt mit folgendem Befehl starten: npm run serve (immernoch im Frontend)
+5. Falls man das Projekt zum ersten mal ausführt muss man jetzt noch die Datenbank erstellen.
+6. Den Befehl ausführen um die Datenbank zu starten: npm run startdatabse (in Frontend/filmlist)
+7. Den Befehl ausführen um das Backend zu starten: npm run startbackend (in Fronend/filmlist)
+8. Mehr kann ich hier im Moment noch nicht schreiben, aber nächste Woche, wenn Docker fertig eingerichtet ist, kann ich dann die richtige Setup-Anleitung machen. Nächste Woche sollte es dann fertig eingerichted sein mit docker Compose und npm scripts.
 
 ## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
