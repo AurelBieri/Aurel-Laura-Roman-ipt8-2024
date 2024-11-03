@@ -29,7 +29,6 @@
           <li v-for="(movie, index) in sortedMovies.filter(m => m.isWatched)" :key="index" class="watched">
             {{ movie.title }}
             <div class="actions">
-              <button @click="markAsUnwatched(index)">Mark as Unwatched</button>
               <button @click="removeMovie(index)">Delete</button>
             </div>
           </li>

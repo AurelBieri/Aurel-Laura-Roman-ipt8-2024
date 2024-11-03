@@ -2,15 +2,18 @@
   "name": "filmlist",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "start": "npm run serve",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "format-check": "npx prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "startdatabase": "cd ../../Docker && docker-compose up -d && docker exec -it mysql-demo mysql -u demo -p",
-    "startbackend": "cd ../../Backend/Filmlist && dotnet restore && dotnet run "
-  },
+"scripts": {
+  "startFirst": "concurrently \"npm run startdatabase\" \"npm run migrate\" \"npm run startbackend\" \"npm ci && npm run serve\"",
+  "start": "concurrently \"npm run startdatabase\" \"npm run startbackend\" \"npm ci && npm run serve\"",
+  "serve": "vue-cli-service serve",
+  "build": "vue-cli-service build",
+  "lint": "vue-cli-service lint",
+  "format-check": "npx prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+  "startdatabase": "cd ../../Docker && docker-compose up -d && docker exec -it mysql-demo mysql -u demo -p",
+  "startbackend": "cd ../../Backend/Filmlist && dotnet restore && dotnet run",
+  "migrate": "cd ../../Backend/Filmlist && dotnet ef database update"
+},
+
   "dependencies": {
     "core-js": "^3.8.3",
     "jwt-decode": "^4.0.0",
@@ -24,6 +27,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "concurrently": "^9.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },
