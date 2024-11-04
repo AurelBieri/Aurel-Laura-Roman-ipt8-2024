@@ -19,5 +19,6 @@ Man kann es ausführen, indem man den folgenden Schritten folgt:
 5. Falls das Programm nicht zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: npm run 
 6. Nach einiger Zeit wird man den Link zum Öffnen der Seite bekommen.
 7. Wenn man auf der Seite ist, muss man sich registrieren und kann sich dann einloggen. Auf der Main-Seite kann man Watchlisten erstellen. Sobald man eine erstellt hat kann man auf Sie klicken und man wird die Watchliste Bearbeiten können. Falls man sich jetzt ausloggen möchte, aber der Auslogg-Button oben rechts nicht angezeigt wird, ist es ein Bug und man muss einfach die Seite Refreshen.
+   
 ## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
