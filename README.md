@@ -6,7 +6,7 @@ Man sollte mehere Watchlisten erstellen können, denen man auch Titel geben kann
 Wenn man ein Film gesehen hat, kann man ihn mit einer Checkbox als geschaut markieren.
 
 ## Technologien
-Wir möchten das Frontend mit Vue.js machen. Und für das backend C# benutzen.
+Wir möchten das Frontend mit Vue.js machen und für das backend C# benutzen.
 Welche Datenbank oder Datenpackete wir brauchen ist noch nicht klar.
 
 ## Lokales Setup
