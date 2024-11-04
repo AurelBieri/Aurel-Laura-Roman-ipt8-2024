@@ -48,4 +48,4 @@ jobs:
         run: dotnet build Backend/Filmlist --configuration Release --no-restore
 
       - name: Run backend tests
-        run: dotnet test Backend/Filmlist.Tests --no-restore --verbosity normal
+        run: dotnet test Backend/Filmlist.LoginTest --no-restore --verbosity normal
