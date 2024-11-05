@@ -19,15 +19,15 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm install
-        working-directory: frontend/filmlist  # Corrected to lowercase 'frontend'
+        working-directory: Frontend/filmlist  
 
       - name: Run linter
         run: npm run lint
-        working-directory: frontend/filmlist  # Corrected to lowercase 'frontend'
+        working-directory: Frontend/filmlist  
 
       - name: Format code
         run: npm run format-check
-        working-directory: frontend/filmlist  # Corrected to lowercase 'frontend'
+        working-directory: Frontend/filmlist  
 
   test-backend:
     runs-on: ubuntu-latest
