@@ -21,24 +21,24 @@ public class UserControllerTests
     }
 
     [Fact]
-    public Task Register_Returns_CreatedAtAction()
+    public async Task Register_Returns_CreatedAtAction()
     {
         var newUser = new User { Email = "testuser@example.com", Password = "Password123" };
-        var result = _controller.CreateUser(newUser) as CreatedAtActionResult;
+        var result = await _controller.CreateUser(newUser) as CreatedAtActionResult;
 
         Assert.NotNull(result);
         Assert.Equal(201, result.StatusCode);
     }
 
     [Fact]
-    public Task Login_Returns_Ok_When_Credentials_Are_Valid()
+    public async Task Login_Returns_Ok_When_Credentials_Are_Valid()
     {
         var existingUser = new User { Email = "testuser@example.com", Password = "Password123" };
-        _context.Users.Add(existingUser);
+        await _context.Users.AddAsync(existingUser);
         await _context.SaveChangesAsync();
 
         var loginRequest = new LoginRequest { Email = "testuser@example.com", Password = "Password123" };
-        var result = _controller.Login(loginRequest); // No await on the result here
+        var result = await _controller.Login(loginRequest); // Use await here
 
         // Assert that the result is of type OkObjectResult
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -46,10 +46,10 @@ public class UserControllerTests
     }
 
     [Fact]
-    public Task Login_Returns_Unauthorized_When_Credentials_Are_Invalid()
+    public async Task Login_Returns_Unauthorized_When_Credentials_Are_Invalid()
     {
         var loginRequest = new LoginRequest { Email = "nonexistent@example.com", Password = "WrongPassword" };
-        var result = _controller.Login(loginRequest); // No await on the result here
+        var result = await _controller.Login(loginRequest); // Use await here
 
         // Assert that the result is of type UnauthorizedResult
         var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result);
