@@ -21,7 +21,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public async Task Register_Returns_CreatedAtAction()
+    public Task Register_Returns_CreatedAtAction()
     {
         var newUser = new User { Email = "testuser@example.com", Password = "Password123" };
         var result = _controller.CreateUser(newUser) as CreatedAtActionResult;
@@ -31,7 +31,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public async Task Login_Returns_Ok_When_Credentials_Are_Valid()
+    public Task Login_Returns_Ok_When_Credentials_Are_Valid()
     {
         var existingUser = new User { Email = "testuser@example.com", Password = "Password123" };
         _context.Users.Add(existingUser);
@@ -46,7 +46,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public async Task Login_Returns_Unauthorized_When_Credentials_Are_Invalid()
+    public Task Login_Returns_Unauthorized_When_Credentials_Are_Invalid()
     {
         var loginRequest = new LoginRequest { Email = "nonexistent@example.com", Password = "WrongPassword" };
         var result = _controller.Login(loginRequest); // No await on the result here
