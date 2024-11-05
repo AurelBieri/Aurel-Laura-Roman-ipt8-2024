@@ -41,11 +41,14 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Clean build folders
-        run: dotnet clean Backend/Filmlist  # Specify the project to clean
+      - name: Restore dependencies for main project
+        run: dotnet restore Backend/Filmlist  # Restore dependencies for the main project
 
-      - name: Restore dependencies
-        run: dotnet restore Backend/Filmlist  # Specify the project for restoring
+      - name: Restore dependencies for test project
+        run: dotnet restore Backend/Filmlist.Tests  # Restore dependencies for the test project
+
+      - name: Clean build folders for main project
+        run: dotnet clean Backend/Filmlist  # Clean main project build artifacts
 
       - name: Build backend
         run: dotnet build Backend/Filmlist --configuration Release --no-restore
