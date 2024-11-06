@@ -39,10 +39,16 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '8.0.x' # Adjust to your .NET version
+          dotnet-version: '8.0.x'
 
-      - name: Restore backend dependencies
-        run: dotnet restore Backend/Filmlist
+      - name: Restore dependencies for main project
+        run: dotnet restore Backend/Filmlist  # Restore dependencies for the main project
+
+      - name: Restore dependencies for test project
+        run: dotnet restore Backend/Filmlist.Tests  # Restore dependencies for the test project
+
+      - name: Clean build folders for main project
+        run: dotnet clean Backend/Filmlist  # Clean main project build artifacts
 
       - name: Build backend
         run: dotnet build Backend/Filmlist --configuration Release --no-restore
