@@ -13,11 +13,14 @@ Zuerst sollte man sicher gehen, dass man Docker heruntergeladen hat und es im hi
 Man kann es ausführen, indem man den folgenden Schritten folgt:
 1. Den Main Branch vom Projekt mit Git klonen.
 2. Im Terminal in den Ordner Frontend/filmlist navigieren.
-3. Folgenden Befehl ausführen: npm ci
-4. Falls das Programm zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: npm run startFirst
-5. Falls das Programm nicht zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: npm run start
+3. Folgenden Befehl ausführen: `npm ci`
+4. Falls das Programm zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: `npm run startFirst`
+5. Falls das Programm nicht zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: `npm run start`
 6. Nach einiger Zeit wird man den Link zum Öffnen der Seite bekommen.
-7. Wenn man auf der Seite ist, muss man sich registrieren und kann sich dann einloggen. Auf der Main-Seite kann man Watchlisten erstellen. Sobald man eine erstellt hat kann man auf Sie klicken und man wird die Watchliste Bearbeiten können. Falls man sich jetzt ausloggen möchte, aber der Auslogg-Button oben rechts nicht angezeigt wird, ist es ein Bug und man muss einfach die Seite Refreshen. Falls es Probleme gibt beim Login oder Registriren führt man am besten den npm run start befehl nochmals aus. Das wird Mögliche Probleme im Backend oder der Datenbank lösen können.
-   
+7. Wenn man auf der Seite ist, muss man sich registrieren und kann sich dann einloggen. Auf der Main-Seite kann man Watchlisten erstellen. Sobald man eine erstellt hat kann man auf Sie klicken und man wird die Watchliste Bearbeiten können.
+
+## Troubleshooting
+- Falls man sich ausloggen möchte, aber der Auslogg-Button oben rechts nicht angezeigt wird, ist es ein Bug und man muss einfach die Seite Refreshen.
+- Falls es Probleme gibt beim Login oder Registrieren, führt man am besten den `npm run start` Befehl nochmals aus. Das wird mögliche Probleme im Backend oder der Datenbank lösen können.
 ## Project Link
 https://github.com/users/AurelBieri/projects/2/views/1
