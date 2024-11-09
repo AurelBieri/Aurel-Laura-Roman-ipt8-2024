@@ -11,7 +11,7 @@ Wir möchten das Frontend mit Vue.js machen und für das Backend C# benutzen. Al
 ## Lokales Setup
 Zuerst sollte man sicher gehen, dass man Docker heruntergeladen hat und es im hintergrund läuft. Sonst wird die Applikation nicht starten können, da Sie mit Docker Containern läuft.
 Man kann es ausführen, indem man den folgenden Schritten folgt:
-1. Das Projekt mit Git Klonen
+1. Den Main Branch vom Projekt mit Git klonen.
 2. Im Terminal in den Ordner Frontend/filmlist navigieren.
 3. Folgenden Befehl ausführen: npm ci
 4. Falls das Programm zum ersten Mal ausgeführt wird, verwenden Sie folgenden Befehl: npm run startFirst
