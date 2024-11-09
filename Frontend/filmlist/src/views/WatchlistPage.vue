@@ -12,11 +12,11 @@
         <h2>To Watch</h2>
         <ul>
           <li v-if="sortedMovies.filter(m => !m.isWatched).length === 0">No movies to watch.</li>
-          <li v-for="(movie, index) in sortedMovies.filter(m => !m.isWatched)" :key="index">
+          <li v-for="(movie, index) in sortedMovies.filter(m => !m.isWatched)" :key="movie.id">
             {{ movie.title }}
             <div class="actions">
               <button @click="markAsWatched(index)">Mark as Watched</button>
-              <button @click="removeMovie(index)">Delete</button>
+              <button @click="removeMovie(index, false)">Delete</button>
             </div>
           </li>
         </ul>
@@ -26,10 +26,10 @@
         <h2>Watched</h2>
         <ul>
           <li v-if="sortedMovies.filter(m => m.isWatched).length === 0">No watched movies.</li>
-          <li v-for="(movie, index) in sortedMovies.filter(m => m.isWatched)" :key="index" class="watched">
+          <li v-for="(movie, index) in sortedMovies.filter(m => m.isWatched)" :key="movie.id" class="watched">
             {{ movie.title }}
             <div class="actions">
-              <button @click="removeMovie(index)">Delete</button>
+              <button @click="removeMovie(index, true)">Delete</button>
             </div>
           </li>
         </ul>
@@ -74,7 +74,7 @@ export default {
     async deleteWatchlist() {
       try {
         await deleteWatchlistById(this.watchlist.id);
-        this.$emit('watchlistDeleted'); // Emit an event to notify the parent component
+        this.$emit('watchlistDeleted'); 
         this.router.push('/'); 
       } catch (error) {
         console.error("Error deleting watchlist:", error);
@@ -86,7 +86,7 @@ export default {
         await markMovieAsWatched(this.watchlist.id, movie.id);
         movie.isWatched = true;
         this.watchlist.movies.splice(index, 1);
-        this.watchlist.movies.push(movie); // Verschiebt den Film ans Ende
+        this.watchlist.movies.push(movie); 
       } catch (error) {
         console.error("Error marking movie as watched:", error);
       }
@@ -97,19 +97,30 @@ export default {
         await markMovieAsUnwatched(this.watchlist.id, movie.id);
         movie.isWatched = false;
         this.watchlist.movies.splice(index, 1);
-        this.watchlist.movies.push(movie); // Verschiebt den Film ans Ende
+        this.watchlist.movies.push(movie); 
       } catch (error) {
         console.error("Error marking movie as unwatched:", error);
       }
     },
-    async removeMovie(index) {
-      const movie = this.watchlist.movies[index];
+    async removeMovie(index, isWatched) {
+  const movieList = isWatched
+    ? this.watchlist.movies.filter(m => m.isWatched)
+    : this.watchlist.movies.filter(m => !m.isWatched);
+
+  const movie = movieList[index]; 
+
+  if (movie) {
+    const originalIndex = this.watchlist.movies.findIndex(m => m.id === movie.id);
+
+    if (originalIndex !== -1) {
       try {
         await deleteMovieFromWatchlist(this.watchlist.id, movie.id);
-        this.watchlist.movies.splice(index, 1); // Entfernt den Film aus der Liste
+        this.watchlist.movies.splice(originalIndex, 1); 
       } catch (error) {
         console.error("Error deleting movie:", error);
       }
+    }
+  }
     },
     async fetchWatchlist() {
       try {

@@ -3,7 +3,7 @@
     <header>
       <div class="header-content">
         <router-link to="/">
-          <img src="@/Assets/watchlist-logo.jpg" alt="Watchlist App Logo" class="logo"/>
+          <img src="@/Assets/watchlist-logo.png" alt="Watchlist App Logo" class="logo"/>
         </router-link>
         <h1>Your Watchlists</h1>
         <nav>
