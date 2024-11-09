@@ -6,8 +6,7 @@ Man sollte mehere Watchlisten erstellen können, denen man auch Titel geben kann
 Wenn man ein Film gesehen hat, kann man ihn mit einer Checkbox als geschaut markieren.
 
 ## Technologien
-Wir möchten das Frontend mit Vue.js machen und für das backend C# benutzen.
-Welche Datenbank oder Datenpackete wir brauchen ist noch nicht klar.
+Wir möchten das Frontend mit Vue.js machen und für das Backend C# benutzen. Als Datenbank benutzten wir mysql, welche in einem Docker Container laufen wird. Wir werden beim Projekt auch Node.js, Javascript und github Action benutzen.
 
 ## Lokales Setup
 Zuerst sollte man sicher gehen, dass man Docker heruntergeladen hat und es im hintergrund läuft. Sonst wird die Applikation nicht starten können, da Sie mit Docker Containern läuft.
