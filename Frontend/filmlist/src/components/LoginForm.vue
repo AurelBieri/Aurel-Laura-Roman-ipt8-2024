@@ -2,6 +2,8 @@
   <div class="login-form">
     <h2>Login</h2>
     <form @submit.prevent="handleLogin">
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+
       <div class="form-group">
         <label for="email">Email:</label>
         <input
@@ -40,11 +42,7 @@ import { useRouter } from 'vue-router';
 const email = ref('');
 const password = ref('');
 const router = useRouter();
-
-const errors = ref({
-  email: '',
-  password: '',
-});
+const errorMessage = ref('');
 
 async function handleLogin(event) {
   event.preventDefault();
@@ -52,7 +50,12 @@ async function handleLogin(event) {
     await login(email.value, password.value);
     await router.push('/');
   } catch (exception) {
-    errors.value = exception.errors || { email: 'Login failed', password: 'Login failed' };
+    // Überprüfe, ob das Backend eine spezifische Fehlermeldung enthält
+    if (exception.response && exception.response.data && exception.response.data.message) {
+      errorMessage.value = exception.response.data.message;
+    } else {
+      errorMessage.value = 'Login failed. Please try again.';
+    }
   }
 }
 </script>
@@ -105,6 +108,12 @@ button {
 
 button:hover {
   background-color: #218838;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .register-link {
